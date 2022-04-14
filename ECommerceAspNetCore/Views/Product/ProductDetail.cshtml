@@ -1,0 +1,9 @@
+﻿@model Product
+
+<div style="padding:20px;">
+    <p>PRODUCT NAME : @Model.ProductName</p>
+    <p>PRODUCT DESCRİPTİON : @Model.ProductDescription</p>
+    <p>PRODUCT PRİCE : @Model.Price</p>
+</div>
+
+<a asp-controller="Product" asp-action="GetProducts">Listeye Dön</a>

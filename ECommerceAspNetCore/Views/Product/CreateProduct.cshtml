@@ -1,0 +1,30 @@
+﻿@model Product
+
+<form asp-controller="Product" asp-action="CreateProduct" enctype="multipart/form-data" class="contact_form_box" method="post" id="contactForm"
+      novalidate="novalidate">
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group text_box">
+                <label asp-for="ProductName"></label>
+                <input asp-for="ProductName"/>
+                <span asp-validation-for="ProductName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group text_box">
+                <label asp-for="ProductDescription"></label>
+                <input asp-for="ProductDescription"/>
+                <span asp-validation-for="ProductDescription" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group text_box">
+                <label asp-for="Price"></label>
+                <input asp-for="Price"/>
+                <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn_three">Ürün Ekle</button>
+</form>

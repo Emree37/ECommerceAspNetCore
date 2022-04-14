@@ -1,0 +1,37 @@
+﻿@model List<Product>
+
+<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+
+<div class="container">
+    <div class="row col-md-6 col-md-offset-2 custyle">
+        
+    
+        <table class="table table-striped custab">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Product Description</th>
+                    <th>Price</th>
+                    <th class="text-center"></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.ProductName</td>
+                    <td>@item.ProductDescription</td>
+                    <td>@item.Price</td>
+                    <td class="text-center"><a class='btn btn-info btn-xs' asp-controller="Product" asp-action="ProductDetail" asp-route-id="@item.Id"><span class="glyphicon glyphicon-edit"></span> Ürün Detay</a> <a asp-controller="Cart" asp-action="AddProduct" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-plus"></span> Sepete Ekle</a></td>
+                </tr>
+            }
+
+        </table>
+        <a asp-controller="Product" asp-action="CreateProduct">
+        Ürün Ekle
+    </a>
+    </div>
+</div>

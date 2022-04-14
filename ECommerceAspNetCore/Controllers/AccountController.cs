@@ -100,7 +100,7 @@ namespace ECommerceAspNetCore.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("GetProducts", "Product");
             }
             else
             {
