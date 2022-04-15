@@ -1,2 +1,33 @@
-﻿@model Cart
+﻿@model List<CartProducts>
 
+<div class="container">
+    <div class="row col-md-12 col-md-offset-2 custyle">
+        
+    
+        <table class="table table-striped custab">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Product Price</th>
+                    <th>Quantity</th>
+                    <th>Subtotal</th>
+                    <th class="text-center"></th>
+                </tr>
+            </thead>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Product.ProductName</td>
+                    <td>@item.Product.Price</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Price</td>
+                    <td class="text-center"><a class='btn btn-info btn-xs'><span class="glyphicon glyphicon-edit"></span> Ürün Detay</a> <a class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-plus"></span> Sepete Ekle</a></td>
+                </tr>
+            }
+
+        </table>
+        <a asp-controller="Cart" asp-action="FinishShopping" asp-route-id="@Model[0].CartId">
+        Alışverişi Tamamla
+    </a>
+    </div>
+</div>

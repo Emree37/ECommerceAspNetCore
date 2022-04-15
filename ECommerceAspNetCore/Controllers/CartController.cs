@@ -31,7 +31,12 @@ namespace ECommerceAspNetCore.Controllers
                 cart = new Cart();
                 cart.ApplicationUserId = user.Id;
             }
-            return View(cart);
+
+            var productsInCart = _dbContext.CartProducts
+                .Include(x => x.Product)
+                .Where(x => x.CartId == cart.Id && x.IsSold == false).ToList();
+
+            return View(productsInCart);
         }
 
         public async Task<IActionResult> AddProduct(Guid Id)
@@ -48,7 +53,7 @@ namespace ECommerceAspNetCore.Controllers
 
             var productsInCart = _dbContext.CartProducts
                 .Include(x => x.Product)
-                .Where(x => x.CartId == cart.Id).ToList();
+                .Where(x => x.CartId == cart.Id && x.IsSold == false).ToList();
 
             var control = productsInCart.SingleOrDefault(x => x.ProductId == product.Id);
             if (control == null)
@@ -72,6 +77,29 @@ namespace ECommerceAspNetCore.Controllers
             _dbContext.SaveChanges();
 
             return RedirectToAction("MyCart");
+        }
+
+        public IActionResult FinishShopping(Guid Id)
+        {
+            var cart = _dbContext.Carts.Find(Id);
+            if(cart == null)
+            {
+                return BadRequest();
+            }
+
+            var productInCarts = _dbContext.CartProducts.Where(x => x.CartId == cart.Id).ToList();
+            foreach (var item in productInCarts)
+            {
+                item.IsSold = true;
+            }
+            _dbContext.SaveChanges();
+
+            return RedirectToAction("ShoppingOk");
+        }
+
+        public IActionResult ShoppingOk()
+        {
+            return View();
         }
     }
 }
