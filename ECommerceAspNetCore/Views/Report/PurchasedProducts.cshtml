@@ -1,27 +1,30 @@
-﻿@model List<CartProducts>
+﻿@model List<Report>
 
 <div class="container">
+    <h1>SATIN ALINAN ÜRÜNLER</h1>
+    <hr />
     <div class="row col-md-12 col-md-offset-2 custyle">
         
     
         <table class="table table-striped custab">
             <thead>
                 <tr>
-                    <th>Product Name</th>
-                    <th>Product Price</th>
-                    <th>Quantity</th>
-                    <th>Subtotal</th>
+                    <th>ÜRÜN İSMİ</th>
+                    <th>BİRİM FİYAT</th>
+                    <th>ADET</th>
+                    <th>TUTAR</th>
+                    <th>SATIN ALMA TARİHİ</th>
                     <th class="text-center"></th>
                 </tr>
             </thead>
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.Product.ProductName</td>
-                    <td>@item.Product.Price</td>
+                    <td>@item.ProductName</td>
+                    <td>@item.ProductPrice</td>
                     <td>@item.Quantity</td>
                     <td>@item.Price</td>
-                    <td class="text-center"><a class='btn btn-info btn-xs'><span class="glyphicon glyphicon-edit"></span> Ürün Detay</a> <a class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-plus"></span> Sepete Ekle</a></td>
+                    <td>@item.Date</td>
                 </tr>
             }
 

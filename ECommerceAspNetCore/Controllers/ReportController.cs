@@ -27,10 +27,7 @@ namespace ECommerceAspNetCore.Controllers
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
             var cart = _dbContext.Carts.SingleOrDefault(x => x.ApplicationUserId == user.Id);
 
-            var purchasedProducts = _dbContext.CartProducts
-                .Include(x => x.Product)
-                .Where(x => x.CartId == cart.Id).ToList();
-
+            var purchasedProducts = _dbContext.Reports.Where(x=>x.CartId == cart.Id).ToList();
 
             return View(purchasedProducts);
         }
