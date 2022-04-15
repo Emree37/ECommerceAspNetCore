@@ -7,15 +7,15 @@
 
 
 <div class="container">
-    <div class="row col-md-6 col-md-offset-2 custyle">
+    <div class="row col-md-12 custyle">
         
     
         <table class="table table-striped custab">
             <thead>
                 <tr>
-                    <th>Product Name</th>
-                    <th>Product Description</th>
-                    <th>Price</th>
+                    <th>ÜRÜN ADI</th>
+                    <th>ÜRÜN AÇIKLAMASI</th>
+                    <th>FİYAT</th>
                     <th class="text-center"></th>
                 </tr>
             </thead>
@@ -30,7 +30,7 @@
             }
 
         </table>
-        <a asp-controller="Product" asp-action="CreateProduct">
+        <a class="btn btn-success" asp-controller="Product" asp-action="CreateProduct">
         Ürün Ekle
     </a>
     </div>

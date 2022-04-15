@@ -14,7 +14,6 @@ namespace ECommerceAspNetCore.Models.Entities
 
         public int Quantity { get; set; }
 
-        public bool IsSold { get; set; } = false;
 
         [ForeignKey(nameof(CartId))]
         public Cart Cart { get; set; }

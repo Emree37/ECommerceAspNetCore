@@ -1,4 +1,6 @@
-﻿using ECommerceAspNetCore.Models.Identity;
+﻿using ECommerceAspNetCore.Data;
+using ECommerceAspNetCore.Models.Entities;
+using ECommerceAspNetCore.Models.Identity;
 using ECommerceAspNetCore.ViewModels.AccountViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,16 +15,19 @@ namespace ECommerceAspNetCore.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly RoleManager<ApplicationRole> _roleManager;
+        private readonly MyContext _dbContext;
 
         public AccountController(
              UserManager<ApplicationUser> userManager,
              SignInManager<ApplicationUser> signInManager,
-             RoleManager<ApplicationRole> roleManager
+             RoleManager<ApplicationRole> roleManager,
+             MyContext dbContext
              )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _dbContext = dbContext;
         }
 
         [AllowAnonymous]
@@ -67,7 +72,13 @@ namespace ECommerceAspNetCore.Controllers
             var result = await _userManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                var count = _userManager.Users.Count();
+                Cart cart = new Cart()
+                {
+                    ApplicationUserId = user.Id
+                };
+                _dbContext.Carts.Add(cart);
+                _dbContext.SaveChanges();
+
                 return RedirectToAction("Login", "Account");
             }
             else

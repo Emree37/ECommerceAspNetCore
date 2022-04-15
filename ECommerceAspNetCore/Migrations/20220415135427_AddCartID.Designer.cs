@@ -3,14 +3,16 @@ using System;
 using ECommerceAspNetCore.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ECommerceAspNetCore.Migrations
 {
     [DbContext(typeof(MyContext))]
-    partial class MyContextModelSnapshot : ModelSnapshot
+    [Migration("20220415135427_AddCartID")]
+    partial class AddCartID
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,9 +85,6 @@ namespace ECommerceAspNetCore.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("CartId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
                     b.Property<decimal>("Price")

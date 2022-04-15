@@ -2,6 +2,7 @@
 using ECommerceAspNetCore.Extensions;
 using ECommerceAspNetCore.Models.Entities;
 using ECommerceAspNetCore.Models.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace ECommerceAspNetCore.Controllers
 {
+    [Authorize]
     public class CartController : Controller
     {
         private readonly MyContext _dbContext;
@@ -22,19 +24,17 @@ namespace ECommerceAspNetCore.Controllers
             _userManager = userManager;
         }
 
+        
         public async Task<IActionResult> MyCart()
         {
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
             var cart = _dbContext.Carts.SingleOrDefault(x=>x.ApplicationUserId == user.Id);
-            if(cart == null)
-            {
-                cart = new Cart();
-                cart.ApplicationUserId = user.Id;
-            }
-
+            
             var productsInCart = _dbContext.CartProducts
                 .Include(x => x.Product)
-                .Where(x => x.CartId == cart.Id && x.IsSold == false).ToList();
+                .Where(x => x.CartId == cart.Id).ToList();
+
+            ViewBag.CartId = cart.Id;
 
             return View(productsInCart);
         }
@@ -43,22 +43,16 @@ namespace ECommerceAspNetCore.Controllers
         {
             var user = await _userManager.FindByIdAsync(HttpContext.GetUserId());
             var cart = _dbContext.Carts.SingleOrDefault(x => x.ApplicationUserId == user.Id);
-            if (cart == null)
-            {
-                cart = new Cart();
-                cart.ApplicationUserId = user.Id;
-                _dbContext.Carts.Add(cart);
-            }
+            
             var product = _dbContext.Products.Find(Id);
 
             var productsInCart = _dbContext.CartProducts
                 .Include(x => x.Product)
-                .Where(x => x.CartId == cart.Id && x.IsSold == false).ToList();
+                .Where(x => x.CartId == cart.Id).ToList();
 
             var control = productsInCart.SingleOrDefault(x => x.ProductId == product.Id);
             if (control == null)
             {
-                //Ürün yok
                 CartProducts newProduct = new CartProducts()
                 {
                     CartId = cart.Id,
@@ -82,15 +76,25 @@ namespace ECommerceAspNetCore.Controllers
         public IActionResult FinishShopping(Guid Id)
         {
             var cart = _dbContext.Carts.Find(Id);
-            if(cart == null)
-            {
-                return BadRequest();
-            }
 
-            var productInCarts = _dbContext.CartProducts.Where(x => x.CartId == cart.Id).ToList();
+            var productInCarts = _dbContext.CartProducts
+                .Include(x=> x.Product)
+                .Where(x => x.CartId == cart.Id).ToList();
             foreach (var item in productInCarts)
             {
-                item.IsSold = true;
+                Report report = new Report()
+                {
+                    ProductName = item.Product.ProductName,
+                    ProductPrice = item.Product.Price,
+                    Quantity = item.Quantity,
+                    Price = item.Price,
+                    CartId = item.CartId
+                };
+                _dbContext.Reports.Add(report);
+            }
+            foreach (var item in productInCarts)
+            {
+                _dbContext.CartProducts.Remove(item);
             }
             _dbContext.SaveChanges();
 

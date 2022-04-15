@@ -18,6 +18,8 @@ namespace ECommerceAspNetCore.Data
 
         public DbSet<CartProducts> CartProducts { get; set; }
 
+        public DbSet<Report> Reports { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);

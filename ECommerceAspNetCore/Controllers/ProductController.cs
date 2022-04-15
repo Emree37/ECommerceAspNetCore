@@ -1,11 +1,13 @@
 ﻿using ECommerceAspNetCore.Data;
 using ECommerceAspNetCore.Models.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 
 namespace ECommerceAspNetCore.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private readonly MyContext _dbContext;
